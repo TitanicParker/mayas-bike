@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#f6f2e8" />
+  <title>Maya's Bike — Completed Intelligibility</title>
+  <meta name="description" content="A quiet, responsive reading edition for the Completed Intelligibility manuscript." />
+
+  <style>
+    :root {
+      --paper: #f6f2e8;
+      --paper-deep: #eee7d8;
+      --ink: #1d1d1a;
+      --muted: #6d685f;
+      --rule: rgba(29, 29, 26, 0.15);
+      --accent: #6f3f2d;
+      --accent-soft: rgba(111, 63, 45, 0.1);
+      --measure: 43rem;
+      --serif: Georgia, 'Times New Roman', Times, serif;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--paper);
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 20% 0%, rgba(255,255,255,0.7), transparent 32rem),
+        var(--paper);
+      font-family: var(--serif);
+      font-size: 20px;
+      line-height: 1.67;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+
+    .progress {
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: 3px;
+      z-index: 20;
+      background: transparent;
+    }
+
+    .progress > span {
+      display: block;
+      width: 0;
+      height: 100%;
+      background: var(--accent);
+      transition: width 80ms linear;
+    }
+
+    .masthead {
+      padding: 1.25rem 1.35rem 0;
+      font-family: var(--sans);
+    }
+
+    .masthead-inner {
+      width: min(100%, 72rem);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .brand {
+      font-size: 0.78rem;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      font-weight: 650;
+    }
+
+    .status {
+      color: var(--muted);
+      font-size: 0.72rem;
+      white-space: nowrap;
+    }
+
+    main {
+      width: min(100% - 2.4rem, var(--measure));
+      margin: 0 auto;
+      padding: clamp(4rem, 10vw, 8.5rem) 0 9rem;
+    }
+
+    .loading,
+    .error {
+      font-family: var(--sans);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    article > :first-child { margin-top: 0; }
+
+    article h1,
+    article h2,
+    article h3 {
+      font-family: var(--serif);
+      font-weight: 500;
+      line-height: 1.08;
+      text-wrap: balance;
+    }
+
+    article h1 {
+      margin: 0 0 3.8rem;
+      font-size: clamp(3.1rem, 9vw, 6rem);
+      letter-spacing: -0.045em;
+    }
+
+    article h2 {
+      margin: 6.5rem 0 2.3rem;
+      padding-top: 1.4rem;
+      border-top: 1px solid var(--rule);
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      letter-spacing: -0.025em;
+    }
+
+    article h3 {
+      margin: 3.7rem 0 1.4rem;
+      font-size: 1.5rem;
+    }
+
+    article p {
+      margin: 0 0 1.25rem;
+      hanging-punctuation: first last;
+    }
+
+    article p + p { margin-top: 0; }
+
+    article strong { font-weight: 700; }
+
+    article em { font-style: italic; }
+
+    article blockquote {
+      margin: 2.5rem 0;
+      padding: 0.2rem 0 0.2rem 1.5rem;
+      border-left: 2px solid var(--accent);
+      color: #3e3933;
+      font-size: 1.08em;
+    }
+
+    article hr {
+      width: 4rem;
+      margin: 4.5rem auto;
+      border: 0;
+      border-top: 1px solid var(--rule);
+    }
+
+    article ul,
+    article ol {
+      padding-left: 1.4rem;
+      margin: 1.4rem 0 1.8rem;
+    }
+
+    article li { margin: 0.45rem 0; }
+
+    article code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.83em;
+      background: var(--accent-soft);
+      padding: 0.12em 0.3em;
+      border-radius: 0.22em;
+    }
+
+    article pre {
+      overflow-x: auto;
+      padding: 1rem;
+      background: var(--paper-deep);
+      border: 1px solid var(--rule);
+      border-radius: 0.35rem;
+      font-size: 0.8rem;
+      line-height: 1.5;
+    }
+
+    article pre code {
+      padding: 0;
+      background: transparent;
+    }
+
+    .closing {
+      width: min(100% - 2.4rem, var(--measure));
+      margin: 0 auto 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--rule);
+      color: var(--muted);
+      font: 0.72rem/1.5 var(--sans);
+      letter-spacing: 0.03em;
+    }
+
+    ::selection {
+      background: rgba(111, 63, 45, 0.22);
+    }
+
+    @media (max-width: 640px) {
+      body {
+        font-size: 18px;
+        line-height: 1.62;
+      }
+
+      .masthead { padding-inline: 1rem; }
+      .status { display: none; }
+      main { width: min(100% - 2rem, var(--measure)); padding-top: 4.2rem; }
+      article h1 { margin-bottom: 3rem; }
+      article h2 { margin-top: 5rem; }
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --paper: #171714;
+        --paper-deep: #201f1a;
+        --ink: #f0ecdf;
+        --muted: #aaa397;
+        --rule: rgba(240, 236, 223, 0.17);
+        --accent: #d69270;
+        --accent-soft: rgba(214, 146, 112, 0.12);
+      }
+
+      body {
+        background:
+          radial-gradient(circle at 20% 0%, rgba(255,255,255,0.035), transparent 32rem),
+          var(--paper);
+      }
+
+      article blockquote { color: #d1cabd; }
+    }
+
+    @media print {
+      .masthead, .progress, .closing { display: none; }
+      body { background: #fff; color: #000; font-size: 12pt; }
+      main { width: 100%; max-width: 38em; padding: 0; }
+      article h1 { font-size: 34pt; }
+      article h2 { break-before: page; border-top: 0; }
+      article p { orphans: 3; widows: 3; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+  <header class="masthead">
+    <div class="masthead-inner">
+      <div class="brand">Maya's Bike</div>
+      <div class="status" id="status">Manuscript edition</div>
+    </div>
+  </header>
+
+  <main>
+    <article id="manuscript" aria-live="polite">
+      <p class="loading">Loading manuscript…</p>
+    </article>
+  </main>
+
+  <footer class="closing">A reading edition generated directly from <code>manuscript.md</code>.</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+  <script>
+    const manuscript = document.getElementById('manuscript');
+    const status = document.getElementById('status');
+    const progressBar = document.getElementById('progressBar');
+
+    marked.setOptions({
+      gfm: true,
+      breaks: false,
+      mangle: false,
+      headerIds: true
+    });
+
+    async function loadManuscript() {
+      try {
+        const response = await fetch('./manuscript.md', { cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const markdown = await response.text();
+        const rendered = marked.parse(markdown);
+        manuscript.innerHTML = DOMPurify.sanitize(rendered);
+
+        const title = manuscript.querySelector('h1');
+        if (title && title.textContent.trim()) {
+          document.title = `${title.textContent.trim()} — Maya's Bike`;
+        }
+
+        const words = markdown
+          .replace(/```[\s\S]*?```/g, ' ')
+          .replace(/[#>*_`\-\[\]()]/g, ' ')
+          .trim()
+          .split(/\s+/)
+          .filter(Boolean).length;
+
+        const minutes = Math.max(1, Math.round(words / 155));
+        status.textContent = `${words.toLocaleString()} words · about ${minutes} min read aloud`;
+      } catch (error) {
+        manuscript.innerHTML = `
+          <div class="error">
+            <p><strong>The manuscript could not be loaded.</strong></p>
+            <p>Make sure <code>manuscript.md</code> exists beside <code>index.html</code>.</p>
+          </div>`;
+        status.textContent = 'Manuscript unavailable';
+        console.error(error);
+      }
+    }
+
+    function updateProgress() {
+      const root = document.documentElement;
+      const max = root.scrollHeight - root.clientHeight;
+      const ratio = max > 0 ? root.scrollTop / max : 0;
+      progressBar.style.width = `${Math.min(100, Math.max(0, ratio * 100))}%`;
+    }
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress);
+
+    loadManuscript().then(updateProgress);
+  </script>
+</body>
+</html>
